@@ -11,7 +11,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     axios
-      .get("/api/products")
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/products`)
       .then((res) => {
         setProducts(res.data);
         const initialQuantities = {};
