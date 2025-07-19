@@ -15,7 +15,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/signup", form);
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/signup`, form);
       localStorage.setItem("token", res.data.token);
       navigate("/products");
     } catch (err) {

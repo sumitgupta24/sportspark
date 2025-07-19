@@ -10,7 +10,7 @@ const Cart = () => {
 
   const fetchCart = () => {
     axios
-      .get("/api/cart", {
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/cart`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {

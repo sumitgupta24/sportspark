@@ -12,7 +12,7 @@ const Home = () => {
   useEffect(() => {
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("/api/products");
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/products`);
       setProducts(res.data);
       console.log("Home products:", res.data); // ✅ Check if image is present here
     } catch (err) {

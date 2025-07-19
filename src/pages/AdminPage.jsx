@@ -19,7 +19,7 @@ const AdminPage = () => {
   formData.append("image", image); // image is from input type="file"
 
   try {
-    const response = await axios.post("http://localhost:4000/api/products/add", formData, {
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/products/add`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
