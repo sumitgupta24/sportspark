@@ -18,7 +18,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/login", form);
+      const res = await axios.post("/api/auth/login", form);
       localStorage.setItem("token", res.data.token);
       setLoggedIn(true);
       setShouldNavigate(true);

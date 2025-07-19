@@ -1,11 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import ghPages from 'vite-plugin-gh-pages'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// replace with your repo name
-const repoName = 'sportspark'
-
+// ✅ Set the repo name here
 export default defineConfig({
-  plugins: [react(), ghPages()],
-  base: `/${SportSpark}/`, // 👈 for GitHub Pages
-})
+  plugins: [react()],
+  base: '/sportspark/', // 👈 Important for GitHub Pages
+});

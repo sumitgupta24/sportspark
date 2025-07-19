@@ -11,7 +11,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/products")
+      .get("/api/products")
       .then((res) => {
         setProducts(res.data);
         const initialQuantities = {};

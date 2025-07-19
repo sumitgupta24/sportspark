@@ -3,13 +3,16 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 import axios from "axios";
 
+
+
+
 const Home = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/products");
+      const res = await axios.get("/api/products");
       setProducts(res.data);
       console.log("Home products:", res.data); // ✅ Check if image is present here
     } catch (err) {

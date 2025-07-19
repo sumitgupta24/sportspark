@@ -10,7 +10,7 @@ const Cart = () => {
 
   const fetchCart = () => {
     axios
-      .get("http://localhost:4000/api/cart", {
+      .get("/api/cart", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
