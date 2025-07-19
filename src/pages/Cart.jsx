@@ -33,7 +33,7 @@ const Cart = () => {
   const handleRemove = async (productId) => {
     try {
       await axios.put(
-        "http://localhost:4000/api/cart/remove",
+        `${import.meta.env.VITE_API_BASE_URL}/api/cart/remove`,
         { productId },
         { headers: { Authorization: `Bearer ${token}` } }
       );

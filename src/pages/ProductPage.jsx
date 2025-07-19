@@ -44,7 +44,7 @@ const ProductPage = () => {
 
     axios
       .post(
-        "http://localhost:4000/api/cart/add",
+        `${import.meta.env.VITE_API_BASE_URL}/api/cart/add`,
         { productId, quantity },
         {
           headers: { Authorization: `Bearer ${token}` },
