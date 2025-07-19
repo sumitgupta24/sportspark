@@ -1,0 +1,34 @@
+.footer {
+  background: #101010;
+  color: #ccc;
+  padding: 50px 20px;
+}
+
+.footer-cols {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-cols div {
+  margin-bottom: 20px;
+}
+
+.footer h3, .footer h4 {
+  color: #fff;
+}
+
+.footer a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.copy {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+}
