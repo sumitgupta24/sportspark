@@ -1,34 +1,148 @@
-.footer {
-  background: #101010;
-  color: #ccc;
-  padding: 50px 20px;
+/* src/components/Footer.css (Revamped) */
+
+.site-footer {
+  background-color: #121212;
+  color: #a7a7a7;
+  padding: 80px 0;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.footer-cols {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-.footer-cols div {
-  margin-bottom: 20px;
-}
-
-.footer h3, .footer h4 {
-  color: #fff;
-}
-
-.footer a {
-  color: #ccc;
-  text-decoration: none;
-}
-
-.footer a:hover {
-  color: #fff;
-}
-
-.copy {
+/* --- 1. Newsletter Signup --- */
+.footer-subscribe {
   text-align: center;
-  margin-top: 30px;
-  font-size: 14px;
+  padding: 40px;
+  background-color: #1c1c1c;
+  border-radius: 16px;
+  margin-bottom: 60px;
+}
+
+.subscribe-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.subscribe-subtitle {
+  font-size: 1rem;
+  margin-bottom: 24px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.subscribe-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.subscribe-input {
+  width: 100%;
+  padding: 14px 20px;
+  border: 1px solid #444;
+  border-radius: 50px;
+  background-color: #2b2b2b;
+  color: white;
+  font-size: 1rem;
+}
+.subscribe-input::placeholder {
+  color: #888;
+}
+.subscribe-input:focus {
+  outline: none;
+  border-color: #007cf0;
+}
+
+.subscribe-button {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 50px;
+  background-color: #007cf0;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.subscribe-button:hover {
+  background-color: #0056b3;
+}
+
+/* --- 2. Links Grid --- */
+.footer-links-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.footer-heading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.footer-column a {
+  display: block;
+  color: #a7a7a7;
+  text-decoration: none;
+  margin-bottom: 12px;
+  transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+  color: #ffffff;
+}
+
+/* --- Social Media Icons --- */
+.social-icons {
+  display: flex;
+  gap: 16px;
+}
+
+.social-icons a {
+  font-size: 1.5rem;
+  color: #a7a7a7;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* --- 3. Bottom Bar --- */
+.footer-bottom {
+  text-align: center;
+  padding-top: 40px;
+  border-top: 1px solid #333;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .footer-links-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-links-grid {
+    grid-template-columns: 1fr;
+  }
+  .subscribe-form {
+    flex-direction: column;
+  }
 }
