@@ -1,0 +1,156 @@
+/* src/pages/Signup.css */
+
+.signup-page-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Fallback for centering */
+  justify-content: space-between; /* Main layout for desktop */
+  height: 100vh;
+  overflow: hidden;
+  padding: 40px;
+}
+
+/* --- Background Video (Shared with Login) --- */
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3));
+  z-index: 2;
+}
+
+/* --- Left Side: Branding --- */
+.branding-content {
+  position: relative;
+  z-index: 3;
+  color: white;
+  max-width: 450px;
+}
+.branding-content .logo {
+  height: 50px;
+  margin-bottom: 24px;
+}
+.branding-content h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+.branding-content p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+/* --- Right Side: Glassmorphism Card --- */
+.signup-card {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  color: white;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.signup-card h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* --- Form Elements --- */
+.signup-form .input-group {
+  margin-bottom: 20px;
+}
+.signup-form input {
+  box-sizing: border-box; /* Ensures padding is inside */
+  width: 100%;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  font-size: 1rem;
+  color: white;
+  transition: all 0.3s ease;
+}
+.signup-form input::placeholder { color: rgba(255, 255, 255, 0.7); }
+.signup-form input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.error-message {
+  color: #ffbaba;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.signup-button {
+  width: 100%;
+  padding: 14px;
+  background: white;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.signup-button:hover { background-color: #f0f0f0; }
+.signup-button:disabled { background-color: #aaa; cursor: not-allowed; }
+
+.login-link {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+.login-link a {
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+}
+.login-link a:hover { text-decoration: underline; }
+
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+  .signup-page-container {
+    justify-content: center; /* Center the card when there's no space */
+  }
+  .branding-content {
+    display: none; /* Hide the branding text on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-card {
+    padding: 30px;
+    margin: 0 16px;
+  }
+}
