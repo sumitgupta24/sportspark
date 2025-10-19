@@ -1,51 +1,76 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+// src/components/Navbar.jsx (Final, Clean Version)
+import { NavLink, useNavigate } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
-import "./Navbar.css"; // for external CSS styles
+import "./Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { loggedIn, setLoggedIn } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
+  // Adds a shadow when the user scrolls
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setLoggedIn(!!token);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     setLoggedIn(false);
+    setMenuOpen(false);
     navigate("/login");
   };
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <nav className="navbar">
-      <div className="navbar-brand">
-        <img src="/logo.png" alt="SportSpark" className="logo-img" />
-        <span className="brand-name">SportSpark</span>
-      </div>
+    <header className={`navbar-header ${isScrolled ? "is-scrolled" : ""}`}>
+      <nav className="navbar-container">
+        {/* Left Side: Brand/Logo */}
+        <NavLink to="/" className="navbar-brand">
+          <img src="/logo.png" alt="SportSpark Logo" className="navbar-logo" />
+          <span>SportSpark</span>
+        </NavLink>
 
-      <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-        ☰
-      </div>
+        {/* Hamburger Icon for Mobile */}
+        <button
+          className={`navbar-hamburger ${menuOpen ? "is-active" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
 
-      <div className={`nav-links ${menuOpen ? "active" : ""}`}>
-        <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-        <Link to="/products" onClick={() => setMenuOpen(false)}>Products</Link>
-        <Link to="/cart" onClick={() => setMenuOpen(false)}>Cart</Link>
-        {!loggedIn ? (
-          <>
-            <Link to="/login" onClick={() => setMenuOpen(false)}>Login</Link>
-            <Link to="/signup" onClick={() => setMenuOpen(false)}>Signup</Link>
-          </>
-        ) : (
-          <button className="logout-btn" onClick={() => { handleLogout(); setMenuOpen(false); }}>
-            Logout
-          </button>
-        )}
-      </div>
-    </nav>
+        {/* Right Side: Links and Buttons */}
+        <div className={`navbar-menu ${menuOpen ? "is-active" : ""}`}>
+          <div className="navbar-links">
+            <NavLink to="/" onClick={closeMenu}>Home</NavLink>
+            <NavLink to="/products" onClick={closeMenu}>Products</NavLink>
+            <NavLink to="/cart" onClick={closeMenu}>Cart</NavLink>
+          </div>
+
+          <div className="navbar-auth">
+            {!loggedIn ? (
+              <>
+                <NavLink to="/login" className="nav-button-secondary" onClick={closeMenu}>Login</NavLink>
+                <NavLink to="/signup" className="nav-button-primary" onClick={closeMenu}>Sign Up</NavLink>
+              </>
+            ) : (
+              <button className="nav-button-primary" onClick={handleLogout}>
+                Logout
+              </button>
+            )}
+          </div>
+        </div>
+      </nav>
+    </header>
   );
 };
 

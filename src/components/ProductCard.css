@@ -1,0 +1,52 @@
+/* src/components/ProductCard.css */
+.product-card {
+  /* Sizing and Layout */
+  flex: 0 0 250px; /* Flex-basis of 250px, won't grow or shrink */
+  display: flex;
+  flex-direction: column;
+
+  /* Appearance */
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Ensures image corners are rounded */
+
+  /* Animation */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.product-card-image-container {
+  width: 100%;
+  height: 220px;
+  background-color: #f8f9fa; /* Light background for images */
+}
+
+.product-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Shows the whole product, doesn't crop */
+  padding: 1rem;
+}
+
+.product-card-details {
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.product-card-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 0.5rem;
+}
+
+.product-card-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #007cf0; /* A nice highlight blue */
+}
