@@ -1,197 +1,145 @@
-import { useEffect, useState } from "react";
+// src/pages/Cart.jsx (Industry-Ready Revamp)
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FaTrashAlt } from "react-icons/fa";
+import './Cart.css'; // We'll create this CSS file next
 
+// --- Reusable Cart Item Row Component ---
+const CartItem = ({ item, onRemove, onUpdateQuantity }) => {
+  return (
+    <div className="cart-item-row">
+      <img src={item.product?.imageUrl} alt={item.product?.name} className="cart-item-image" />
+      <div className="cart-item-details">
+        <h3 className="cart-item-name">{item.product?.name}</h3>
+        <p className="cart-item-price">₹{item.product?.price || 0}</p>
+      </div>
+      <div className="cart-item-quantity">
+        <button onClick={() => onUpdateQuantity(item.product._id, item.quantity - 1)}>-</button>
+        <span>{item.quantity}</span>
+        <button onClick={() => onUpdateQuantity(item.product._id, item.quantity + 1)}>+</button>
+      </div>
+      <p className="cart-item-subtotal">₹{(item.product?.price || 0) * item.quantity}</p>
+      <button onClick={() => onRemove(item.product._id)} className="cart-item-remove">
+        <FaTrashAlt />
+      </button>
+    </div>
+  );
+};
+
+// --- Main Cart Page Component ---
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  const fetchCart = () => {
-    axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/api/cart`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        setCartItems(res.data.items || []);
-      })
-      .catch((err) => {
-        console.error("Error fetching cart:", err.message);
-        navigate("/login");
-      });
-  };
-
-  useEffect(() => {
+  const fetchCart = useCallback(() => {
     if (!token) {
       navigate("/login");
-    } else {
-      fetchCart();
+      return;
     }
+    setLoading(true);
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/cart`, {
+      headers: { Authorization: `Bearer ${token}` },
+    }).then((res) => {
+      setCartItems(res.data.items || []);
+      setLoading(false);
+    }).catch((err) => {
+      console.error("Error fetching cart:", err.message);
+      setLoading(false);
+      navigate("/login");
+    });
   }, [navigate, token]);
+
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
 
   const handleRemove = async (productId) => {
     try {
-      await axios.put(
-        `${import.meta.env.VITE_API_BASE_URL}/api/cart/remove`,
-        { productId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      fetchCart();
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/cart/remove`, { productId }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchCart(); // Re-fetch the cart to get the updated state
     } catch (err) {
       console.error("Remove failed:", err.message);
     }
   };
 
-  const totalPrice = cartItems.reduce((sum, item) => {
-    return sum + (item.product?.price || 0) * item.quantity;
-  }, 0);
+  const handleUpdateQuantity = async (productId, newQuantity) => {
+    if (newQuantity < 1) {
+      handleRemove(productId); // Remove item if quantity goes below 1
+      return;
+    }
+    // Optimistic UI update for a snappy feel
+    setCartItems(currentItems =>
+      currentItems.map(item =>
+        item.product._id === productId ? { ...item, quantity: newQuantity } : item
+      )
+    );
+
+    try {
+      // NOTE: Assumes you have a backend endpoint to handle quantity updates
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/cart/update`, { productId, quantity: newQuantity }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    } catch (err) {
+      console.error("Update quantity failed:", err.message);
+      fetchCart(); // Revert to server state if the API call fails
+    }
+  };
+
+  const totalPrice = cartItems.reduce((sum, item) => sum + (item.product?.price || 0) * item.quantity, 0);
+
+  if (loading) {
+    return <div className="loading-spinner"></div>;
+  }
 
   return (
-    <div style={styles.page}>
-      <h2 style={styles.heading}>🛒 Your Cart</h2>
-
+    <div className="cart-page-container">
+      <header className="cart-header">
+        <h1>Shopping Cart</h1>
+      </header>
+      
       {cartItems.length === 0 ? (
-        <p style={styles.empty}>Your cart is empty. Let’s go shopping!</p>
+        <div className="empty-cart">
+          <h2>Your cart is currently empty.</h2>
+          <p>Looks like you haven't added anything to your cart yet. Let's find something for you!</p>
+          <Link to="/products" className="continue-shopping-btn">Continue Shopping</Link>
+        </div>
       ) : (
-        <>
-          <div style={styles.grid}>
+        <div className="cart-layout">
+          <div className="cart-items-list">
             {cartItems.map((item) => (
-              <div key={item._id} style={styles.card}>
-                <img
-                  src={item.product?.imageUrl}
-                  alt={item.product?.name}
-                  style={styles.image}
-                />
-                <h3 style={styles.name}>{item.product?.name}</h3>
-                <p style={styles.price}>Price: ₹{item.product?.price || 0}</p>
-
-                <div style={styles.quantity}>
-                  <span style={styles.qtyValue}>Quantity: {item.quantity}</span>
-                </div>
-
-                <p style={styles.subtotal}>
-                  Subtotal: ₹{(item.product?.price || 0) * item.quantity}
-                </p>
-
-                <button
-                  onClick={() => handleRemove(item.product._id)}
-                  style={styles.deleteBtn}
-                >
-                  <FaTrashAlt />
-                </button>
-              </div>
+              <CartItem
+                key={item.product._id}
+                item={item}
+                onRemove={handleRemove}
+                onUpdateQuantity={handleUpdateQuantity}
+              />
             ))}
           </div>
-
-          <div style={styles.totalBox}>
-            <h3>Total Items: {cartItems.length}</h3>
-            <h2>Total: ₹{totalPrice}</h2>
-            <button style={styles.checkoutBtn}>Proceed to Checkout</button>
+          <div className="order-summary">
+            <h3>Order Summary</h3>
+            <div className="summary-row">
+              <span>Subtotal ({cartItems.length} items)</span>
+              <span>₹{totalPrice}</span>
+            </div>
+            <div className="summary-row">
+              <span>Shipping</span>
+              <span>FREE</span>
+            </div>
+            <div className="summary-total">
+              <span>Total</span>
+              <span>₹{totalPrice}</span>
+            </div>
+            <button className="checkout-btn">Proceed to Checkout</button>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
-};
-
-const styles = {
-  page: {
-    background: "linear-gradient(to right, #e8f0ff, #ffffff)",
-    minHeight: "100vh",
-    padding: "40px 20px",
-    fontFamily: "Poppins, sans-serif",
-  },
-  heading: {
-    fontSize: "32px",
-    marginBottom: "30px",
-    color: "#333",
-    textAlign: "center",
-  },
-  empty: {
-    textAlign: "center",
-    fontSize: "18px",
-    color: "#777",
-  },
-  grid: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "20px",
-    justifyContent: "center",
-  },
-  card: {
-    backgroundColor: "#fff",
-    borderRadius: "12px",
-    padding: "20px",
-    width: "250px",
-    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.08)",
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    transition: "transform 0.2s ease",
-  },
-  image: {
-    width: "100%",
-    height: "160px",
-    objectFit: "contain",
-    borderRadius: "8px",
-  },
-  name: {
-    fontSize: "18px",
-    fontWeight: "600",
-    textAlign: "center",
-    margin: "12px 0 6px",
-  },
-  price: {
-    fontSize: "16px",
-    color: "#555",
-  },
-  quantity: {
-    margin: "10px 0",
-  },
-  qtyValue: {
-    fontWeight: "bold",
-    fontSize: "16px",
-    color: "#333",
-  },
-  subtotal: {
-    fontWeight: "500",
-    color: "#222",
-    marginTop: "8px",
-  },
-  deleteBtn: {
-    position: "absolute",
-    top: "12px",
-    right: "12px",
-    backgroundColor: "transparent",
-    border: "none",
-    cursor: "pointer",
-    fontSize: "18px",
-    color: "#c0392b",
-  },
-  totalBox: {
-    marginTop: "40px",
-    textAlign: "center",
-    backgroundColor: "#fff",
-    padding: "20px",
-    borderRadius: "12px",
-    maxWidth: "320px",
-    marginInline: "auto",
-    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.08)",
-  },
-  checkoutBtn: {
-    marginTop: "16px",
-    padding: "12px 20px",
-    fontSize: "16px",
-    fontWeight: "bold",
-    backgroundColor: "#2ecc71",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    width: "100%",
-  },
 };
 
 export default Cart;

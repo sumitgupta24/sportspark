@@ -1,0 +1,176 @@
+/* src/pages/Cart.css */
+
+.cart-page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.cart-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.cart-header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+/* --- Cart Layout --- */
+.cart-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* 2/3 for items, 1/3 for summary */
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* --- Cart Items List (Left Side) --- */
+.cart-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cart-item-row {
+  display: grid;
+  grid-template-columns: 100px 1fr auto auto auto;
+  gap: 20px;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+.cart-item-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+}
+.cart-item-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.cart-item-price {
+  color: #6c757d;
+}
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ced4da;
+  border-radius: 50px;
+}
+.cart-item-quantity button {
+  background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 6px 12px;
+}
+.cart-item-quantity span { font-weight: 600; padding: 0 8px; }
+
+.cart-item-subtotal {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.cart-item-remove {
+  background: none; border: none; cursor: pointer;
+  font-size: 1.2rem; color: #6c757d;
+  transition: color 0.2s;
+}
+.cart-item-remove:hover { color: #dc3545; }
+
+/* --- Order Summary (Right Side) --- */
+.order-summary {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+  position: sticky;
+  top: 100px; /* Offset for the navbar */
+}
+.order-summary h3 {
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 16px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+.checkout-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 24px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.checkout-btn:hover { background-color: #0a58ca; }
+
+/* --- Empty Cart View --- */
+.empty-cart {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: white;
+  border-radius: 12px;
+}
+.empty-cart h2 { font-size: 1.8rem; margin-bottom: 12px; }
+.empty-cart p { color: #6c757d; margin-bottom: 30px; }
+.continue-shopping-btn {
+  background-color: #0d6efd;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+.continue-shopping-btn:hover { background-color: #0a58ca; }
+
+/* --- Loading Spinner --- */
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #0d6efd;
+  border-radius: 50%;
+  width: 40px; height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 100px auto;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* --- Responsive --- */
+@media (max-width: 992px) {
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 576px) {
+    .cart-item-row {
+        grid-template-columns: 80px 1fr;
+        grid-template-areas: 
+            "img details"
+            "img quantity"
+            "img subtotal"
+            "img remove";
+        align-items: flex-start;
+        padding: 16px;
+    }
+    .cart-item-image { grid-area: img; }
+    .cart-item-details { grid-area: details; }
+    .cart-item-quantity { grid-area: quantity; justify-self: flex-start; }
+    .cart-item-subtotal { grid-area: subtotal; justify-self: flex-start; }
+    .cart-item-remove { grid-area: remove; justify-self: flex-start; margin-top: 10px; }
+}
