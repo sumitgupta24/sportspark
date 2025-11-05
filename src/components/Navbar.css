@@ -1,13 +1,4 @@
-/* src/components/Navbar.css (Final, Clean Version) */
-
-:root {
-  --navbar-height: 70px;
-  --brand-primary: #0d6efd;
-  --text-dark: #212529;
-  --text-light: #6c757d;
-  --background-subtle: #f8f9fa;
-  --border-color: #dee2e6;
-}
+/* src/components/Navbar.css (Revamped Dark Theme) */
 
 /* --- Main Header Styling --- */
 .navbar-header {
@@ -16,13 +7,13 @@
   left: 0;
   width: 100%;
   z-index: 1000;
-  background-color: white;
-  border-bottom: 1px solid var(--border-color);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
   transition: box-shadow 0.3s ease;
 }
 
 .navbar-header.is-scrolled {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-container {
@@ -43,12 +34,11 @@
   text-decoration: none;
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 .navbar-logo {
   height: 36px;
   width: auto;
-  background: transparent; /* Ensures no white box */
 }
 
 /* --- Right Side: Menu Wrapper --- */
@@ -67,7 +57,7 @@
 .navbar-links a {
   font-size: 1rem;
   font-weight: 500;
-  color: var(--text-light);
+  color: var(--text-secondary);
   text-decoration: none;
   padding: 8px 4px;
   border-bottom: 2px solid transparent;
@@ -75,12 +65,12 @@
 }
 
 .navbar-links a:hover {
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 
 .navbar-links a.active {
-  color: var(--brand-primary);
-  border-bottom-color: var(--brand-primary);
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
 }
 
 /* --- Auth Buttons --- */
@@ -89,6 +79,12 @@
   gap: 12px;
 }
 
+/* Use global button classes defined in style.css */
+/* We just need to apply them in Navbar.jsx */
+/* This section can be simplified if you use .button-primary and */
+/* .button-secondary classes on your NavLink components. */
+
+/* If you keep the original .nav-button classes: */
 .nav-button-secondary, .nav-button-primary {
   padding: 8px 20px;
   border-radius: 8px;
@@ -98,30 +94,34 @@
   border: 1px solid;
   transition: all 0.2s ease;
   font-size: 0.95rem;
-  white-space: nowrap; /* Prevents text wrapping */
+  white-space: nowrap;
 }
 
 .nav-button-secondary {
   background-color: transparent;
-  color: var(--text-dark);
-  border-color: var(--border-color);
+  color: var(--text-primary);
+  border-color: var(--color-border);
 }
 .nav-button-secondary:hover {
-  background-color: var(--background-subtle);
+  background-color: var(--color-primary-subtle);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .nav-button-primary {
-  background-color: var(--brand-primary);
+  background-color: var(--color-primary);
   color: white;
-  border-color: var(--brand-primary);
+  border-color: var(--color-primary);
 }
 .nav-button-primary:hover {
-  background-color: #0b5ed7;
-  border-color: #0b5ed7;
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 }
 
 /* --- Hamburger & Mobile Styles --- */
-.navbar-hamburger { display: none; }
+.navbar-hamburger { 
+  display: none; 
+}
 
 @media (max-width: 768px) {
   .navbar-hamburger {
@@ -130,7 +130,8 @@
   }
   .navbar-hamburger span {
     display: block; width: 25px; height: 2px; margin: 6px 0;
-    background-color: var(--text-dark); border-radius: 3px;
+    background-color: var(--text-primary); /* Changed from text-dark */
+    border-radius: 3px;
     transition: all 0.3s ease-in-out;
   }
   .navbar-hamburger.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -141,7 +142,7 @@
     position: fixed;
     top: var(--navbar-height); left: 0;
     width: 100%; height: calc(100vh - var(--navbar-height));
-    background-color: white;
+    background-color: var(--color-surface); /* Changed from white */
     flex-direction: column;
     align-items: center;
     justify-content: center;

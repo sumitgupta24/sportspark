@@ -1,13 +1,12 @@
-// src/components/Footer.jsx (Attractive Dark Revamp)
+// src/components/Footer.jsx (Revamped, No Icons)
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => {
   return (
     <footer className="site-footer">
-      {/* Section 1: Call to Action Banner */}
+      {/* Section 1: Call to Action Banner (Optional, but nice) */}
       <div className="footer-cta-banner">
         <div className="footer-container cta-content">
           <h2>Ready to Elevate Your Game?</h2>
@@ -25,12 +24,6 @@ const Footer = () => {
               <span>SportSpark</span>
             </Link>
             <p className="footer-slogan">Engineered for Victory.</p>
-            <div className="footer-social">
-              <a href="#" aria-label="Facebook"><FaFacebookF /></a>
-              <a href="#" aria-label="Twitter"><FaTwitter /></a>
-              <a href="#" aria-label="Instagram"><FaInstagram /></a>
-              <a href="#" aria-label="YouTube"><FaYoutube /></a>
-            </div>
           </div>
 
           {/* Column 2-4: Links */}
@@ -58,7 +51,7 @@ const Footer = () => {
       {/* Section 3: Bottom Bar */}
       <div className="footer-bottom">
         <div className="footer-container bottom-content">
-          <p>&copy; {new Date().getFullYear()} SportSpark. Built for the dedicated athlete.</p>
+          <p>&copy; {new Date().getFullYear()} SportSpark. All rights reserved.</p>
         </div>
       </div>
     </footer>
