@@ -68,7 +68,7 @@ const Home = () => {
         </div>
         <div className="category-grid">
           {categories.map(cat => (
-            <CategoryCard key={cat.name} icon={cat.icon} name={cat.name} background={cat.background} />
+            <CategoryCard key={cat.name}  name={cat.name} background={cat.background} />
           ))}
         </div>
       </section>
